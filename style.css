@@ -1,0 +1,54 @@
+input {
+    width: 50%;
+    font-size: 2vw;  
+    padding: 5px; 
+}
+
+.searchdiv{
+    text-align: center; 
+    margin: 20px; 
+}
+
+.row {
+    width: 80%; 
+    margin: auto; 
+    display: flex; 
+    cursor: pointer; 
+}
+
+.row:hover{
+    background-color: lightgray;
+}
+
+.video-info{
+    padding-left: 3%; 
+}
+
+.publish-date, .channel, .description{
+    color: gray; 
+    font-size: 15px; 
+}
+
+.channel-div, .date-div, .description-div {
+    display: flex; 
+}
+
+i {
+    color: lightskyblue; 
+    margin-right: 1%; 
+    transform: translate(0%, 25%);
+    margin-bottom: 0;  
+}
+
+.publish-date, .video-title, .channel{
+    margin-bottom: 0; 
+}
+
+.video-title{
+    margin-top: 0; 
+}
+
+
+.video-info:hover{
+    border-left: 5px solid lightgray; 
+}
