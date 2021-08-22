@@ -45,11 +45,9 @@ function makeVideoList(responseObject, target){
     for (let i = 0; i < responseObject.items.length; i++){
         //every video is given its own row, which will contain thumbnail, title, 
         var video = responseObject.items[i]; 
-
         if (target && video_dict[target.id] == video){
             continue; 
         }
-
         var row = document.createElement("div"); 
         row.className = "row";
         row.id = "video" + (i+1); 
@@ -66,43 +64,10 @@ function makeVideoList(responseObject, target){
         var videoInfo = document.createElement("div"); 
         videoInfo.className = "video-info"; 
         row.appendChild(videoInfo); 
-        //vieo title is rendered as h1 element
-        var videoTitle = document.createElement("h1");
-        videoTitle.innerText = `${video.snippet.title}`; 
-        videoTitle.className = "video-title"
-        //the date is formatted using a helper function and given a calendar icon
-        var dateDiv = document.createElement("div"); 
-        dateDiv.className = "date-div"
-        var date_icon = document.createElement("i"); 
-        date_icon.innerText = "date_range"; 
-        date_icon.className="material-icons";; 
-        var videoPublishDate = document.createElement("p"); 
-        videoPublishDate.innerText = `${dateConverter(video.snippet.publishedAt)}`; 
-        videoPublishDate.className = "publish-date"; 
-        dateDiv.appendChild(date_icon); 
-        dateDiv.appendChild(videoPublishDate); 
-        //the channel information is given an account icon
-        var channelDiv = document.createElement("div"); 
-        channelDiv.className = "channel-div"
-        var person_icon = document.createElement("i"); 
-        person_icon.innerText = "account_circle"; 
-        person_icon.className="material-icons"; 
-        var videoChannel = document.createElement("p"); 
-        videoChannel.innerText = `${video.snippet.channelTitle}`; 
-        videoChannel.className = "channel"; 
-        channelDiv.appendChild(person_icon); 
-        channelDiv.appendChild(videoChannel);
-        //the description is given an article icon
-        var descriptionDiv = document.createElement("div"); 
-        descriptionDiv.className = "description-div"; 
-        var description_icon = document.createElement("i"); 
-        description_icon.innerText = "article"; 
-        description_icon.className = "material-icons"; 
-        var videoDescription = document.createElement("p"); 
-        videoDescription.innerText = `${video.snippet.description}`; 
-        videoDescription.className = "description"; 
-        descriptionDiv.appendChild(description_icon); 
-        descriptionDiv.appendChild(videoDescription); 
+        var videoTitle = addTitle(video); 
+        var dateDiv = addDate(video);
+        var channelDiv = addChannel(video); 
+        var descriptionDiv = addDescription(video); 
         //appending all the video information to the main div
         videoInfo.appendChild(videoTitle); 
         videoInfo.appendChild(dateDiv);
@@ -110,6 +75,27 @@ function makeVideoList(responseObject, target){
         videoInfo.appendChild(descriptionDiv);
     }
     selectVideo(responseObject); 
+}
+
+function addTitle(video){
+    var videoTitle = document.createElement("h1");
+    videoTitle.innerText = `${video.snippet.title}`; 
+    videoTitle.className = "video-title"; 
+    return videoTitle; 
+}
+
+function addDate(video){
+    var dateDiv = document.createElement("div"); 
+    dateDiv.className = "date-div"
+    var date_icon = document.createElement("i"); 
+    date_icon.innerText = "date_range"; 
+    date_icon.className="material-icons";; 
+    var videoPublishDate = document.createElement("p"); 
+    videoPublishDate.innerText = `${dateConverter(video.snippet.publishedAt)}`; 
+    videoPublishDate.className = "publish-date"; 
+    dateDiv.appendChild(date_icon); 
+    dateDiv.appendChild(videoPublishDate); 
+    return dateDiv; 
 }
 
 /*
@@ -124,6 +110,36 @@ function dateConverter(dateTimeString){
     return date; 
 }
 
+function addChannel(video){
+    var channelDiv = document.createElement("div"); 
+    channelDiv.className = "channel-div"
+    var person_icon = document.createElement("i"); 
+    person_icon.innerText = "account_circle"; 
+    person_icon.className="material-icons"; 
+    var videoChannel = document.createElement("p"); 
+    videoChannel.innerText = `${video.snippet.channelTitle}`; 
+    videoChannel.className = "channel"; 
+    channelDiv.appendChild(person_icon); 
+    channelDiv.appendChild(videoChannel);
+    return channelDiv; 
+}
+
+function addDescription(video){
+    var descriptionDiv = document.createElement("div"); 
+    descriptionDiv.className = "description-div"; 
+    var description_icon = document.createElement("i"); 
+    description_icon.innerText = "article"; 
+    description_icon.className = "material-icons"; 
+    var videoDescription = document.createElement("p"); 
+    videoDescription.innerText = `${video.snippet.description}`; 
+    videoDescription.className = "description"; 
+    descriptionDiv.appendChild(description_icon); 
+    descriptionDiv.appendChild(videoDescription); 
+    return descriptionDiv; 
+}
+
+
+
 function selectVideo(responseObject){
     for (let i = 1; i < 6; i++){
         classString = "#video" + i;  
@@ -132,11 +148,6 @@ function selectVideo(responseObject){
         }
 
     }
-    // document.querySelector('#video1').addEventListener('click', function(e){videoSelected(e, responseObject), false}); 
-    // document.querySelector('#video2').addEventListener('click', function(e){videoSelected(e, responseObject), false}); 
-    // document.querySelector('#video3').addEventListener('click', function(e){videoSelected(e, responseObject), false}); 
-    // document.querySelector('#video4').addEventListener('click', function(e){videoSelected(e, responseObject), false}); 
-    // document.querySelector('#video5').addEventListener('click', function(e){videoSelected(e, responseObject), false}); 
 }
 
 function videoSelected(e, responseObject){ 
