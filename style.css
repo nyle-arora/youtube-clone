@@ -5,8 +5,14 @@ input {
 }
 
 .searchdiv{
-    text-align: center; 
-    margin: 20px; 
+    /* text-align: center; 
+    margin: 20px;
+    margin: 2vh 20vw;  */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 2vh auto; 
 }
 
 .row {
@@ -51,4 +57,8 @@ i {
 
 .video-info:hover{
     border-left: 5px solid lightgray; 
+}
+
+iframe {
+    margin: 2vh; 
 }
