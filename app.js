@@ -173,11 +173,16 @@ function videoSelected(e, responseObject){
     // player.setAttribute("width", "560"); 
     // player.setAttribute("height", "315"); 
     if (screen.width >= 1000){
-        player.setAttribute("width", "40%"); 
+        // player.setAttribute("width", "40%"); 
+        player.setAttribute("width", "640"); 
+        player.setAttribute("height", "360"); 
     } else{
-        player.setAttribute("width", "100%")
+        widthsize = 0.96 * screen.width; 
+        heightsize = 0.54 * screen.width; 
+        player.setAttribute("width", widthsize); 
+        player.setAttribute("height", heightsize);
     }
-    player.setAttribute("height", "315"); 
+     
     player.setAttribute("align", "center"); 
     player.setAttribute("src", embed_link); 
     player.setAttribute("title", "YouTube video player"); 
