@@ -25,7 +25,7 @@ function searchRequest(e){
         request.onreadystatechange = function() {
             //whenver response comes in, convert it to JSON and pass it into makeVideoList function
             if (this.readyState == 4 && this.status == 200) {
-                makeVideoList(JSON.parse(this.response));
+                makeVideoList(JSON.parse(this.response), null);
             }
           };
         request.open("GET", url); 
@@ -36,7 +36,7 @@ function searchRequest(e){
 /*
 This function renders the list of videos given through the API response
 */
-function makeVideoList(responseObject){
+function makeVideoList(responseObject, target){
     //create a div for the list of videos
     var videoList = document.createElement("div"); 
     videoList.className = "video-list"; 
@@ -45,6 +45,11 @@ function makeVideoList(responseObject){
     for (let i = 0; i < responseObject.items.length; i++){
         //every video is given its own row, which will contain thumbnail, title, 
         var video = responseObject.items[i]; 
+
+        if (target && video_dict[target.id] == video){
+            continue; 
+        }
+
         var row = document.createElement("div"); 
         row.className = "row";
         row.id = "video" + (i+1); 
@@ -104,7 +109,7 @@ function makeVideoList(responseObject){
         videoInfo.appendChild(channelDiv); 
         videoInfo.appendChild(descriptionDiv);
     }
-    selectVideo(); 
+    selectVideo(responseObject); 
 }
 
 /*
@@ -119,27 +124,39 @@ function dateConverter(dateTimeString){
     return date; 
 }
 
-function selectVideo(){
-    document.querySelector('#video1').addEventListener('click', function(e){videoSelected(e), false}); 
-    document.querySelector('#video2').addEventListener('click', function(e){videoSelected(e), false}); 
-    document.querySelector('#video3').addEventListener('click', function(e){videoSelected(e), false}); 
-    document.querySelector('#video4').addEventListener('click', function(e){videoSelected(e), false}); 
-    document.querySelector('#video5').addEventListener('click', function(e){videoSelected(e), false}); 
+function selectVideo(responseObject){
+    for (let i = 1; i < 6; i++){
+        classString = "#video" + i;  
+        if (document.querySelector(classString)){
+            document.querySelector(classString).addEventListener('click', function(e){videoSelected(e, responseObject), false});
+        }
+
+    }
+    // document.querySelector('#video1').addEventListener('click', function(e){videoSelected(e, responseObject), false}); 
+    // document.querySelector('#video2').addEventListener('click', function(e){videoSelected(e, responseObject), false}); 
+    // document.querySelector('#video3').addEventListener('click', function(e){videoSelected(e, responseObject), false}); 
+    // document.querySelector('#video4').addEventListener('click', function(e){videoSelected(e, responseObject), false}); 
+    // document.querySelector('#video5').addEventListener('click', function(e){videoSelected(e, responseObject), false}); 
 }
 
-function videoSelected(e){ 
+function videoSelected(e, responseObject){ 
     var body = document.querySelector('body');
+    var target = e.target; 
+    while (target.className != "row"){
+        target = target.parentElement; 
+    }
     if (document.querySelector('.iframe-div')){
         body.removeChild(document.querySelector('.iframe-div')); 
+    }
+    if (document.querySelector('.video-list')){
+        body.removeChild(document.querySelector('.video-list')); 
+        makeVideoList(responseObject, target); 
     }
     var iframeDiv = document.createElement('div'); 
     iframeDiv.className = "iframe-div"; 
     iframeDiv.setAttribute("align", "center"); 
     body.appendChild(iframeDiv); 
-    var target = e.target; 
-    while (target.className != "row"){
-        target = target.parentElement; 
-    }
+    
     embed_link = `https://www.youtube.com/embed/${video_dict[target.id].id.videoId}`; 
     var player = document.createElement("iframe"); 
     // player.setAttribute("width", "560"); 
@@ -157,6 +174,8 @@ function videoSelected(e){
     player.setAttribute("allowfullscreen", true); 
     player.setAttribute("autoplay", true); 
     player.setAttribute("muted", true); 
+
+
     
     iframeDiv.appendChild(player); 
     var videoList = document.querySelector('.video-list'); 
