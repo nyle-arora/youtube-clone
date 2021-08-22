@@ -52,7 +52,7 @@ function makeVideoList(responseObject){
         videoList.appendChild(row);
 
         //thumbnail is rendered in its own div, on the left side of the row
-        var thumbnail = document.createElement("div"); 
+        var thumbnail = document.createElement("div");  
         thumbnail.innerHTML = `<img src="${video.snippet.thumbnails.medium.url}">`; 
         row.appendChild(thumbnail); 
 
@@ -129,8 +129,8 @@ function selectVideo(){
 
 function videoSelected(e){ 
     var body = document.querySelector('body');
-    if (document.querySelector('iframe')){
-        body.removeChild(document.querySelector('iframe')); 
+    if (document.querySelector('.iframe-div')){
+        body.removeChild(document.querySelector('.iframe-div')); 
     }
     var iframeDiv = document.createElement('div'); 
     iframeDiv.className = "iframe-div"; 
@@ -141,8 +141,6 @@ function videoSelected(e){
         target = target.parentElement; 
     }
     embed_link = `https://www.youtube.com/embed/${video_dict[target.id].id.videoId}`; 
-    console.log(video_dict);
-    console.log(embed_link); 
     var player = document.createElement("iframe"); 
     // player.setAttribute("width", "560"); 
     // player.setAttribute("height", "315"); 
@@ -162,12 +160,6 @@ function videoSelected(e){
     
     iframeDiv.appendChild(player); 
     var videoList = document.querySelector('.video-list'); 
-    body.appendChild(videoList); 
+    body.appendChild(videoList);  
 }
-
-
-// for (row in document.getElementsByClassName('.row')){
-//     // console.log(row); 
-//     // row.addEventListener("click", videoSelected(row)); 
-// }; 
 
