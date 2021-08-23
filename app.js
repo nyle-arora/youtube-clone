@@ -141,7 +141,8 @@ function addDescription(video){
 
 
 function selectVideo(responseObject){
-    for (let i = 1; i < 6; i++){
+    var numberOfVideos = document.querySelectorAll('.row').length;
+    for (let i = 1; i < numberOfVideos+1; i++){
         classString = "#video" + i;  
         if (document.querySelector(classString)){
             document.querySelector(classString).addEventListener('click', function(e){videoSelected(e, responseObject), false});
@@ -168,14 +169,18 @@ function videoSelected(e, responseObject){
     iframeDiv.setAttribute("align", "center"); 
     body.appendChild(iframeDiv); 
     
+    var playerTitle = document.createElement('h1');
+    playerTitle.className = "playerTitle"
+    playerTitle.innerText = video_dict[target.id].snippet.title;
+    iframeDiv.appendChild(playerTitle);
+
     embed_link = `https://www.youtube.com/embed/${video_dict[target.id].id.videoId}`; 
     var player = document.createElement("iframe"); 
     // player.setAttribute("width", "560"); 
     // player.setAttribute("height", "315"); 
     if (screen.width >= 1000){
-        // player.setAttribute("width", "40%"); 
-        player.setAttribute("width", "640"); 
-        player.setAttribute("height", "360"); 
+        player.setAttribute("width", "800"); 
+        player.setAttribute("height", "450"); 
     } else{
         widthsize = 0.96 * screen.width; 
         heightsize = 0.54 * screen.width; 
@@ -190,10 +195,8 @@ function videoSelected(e, responseObject){
     player.setAttribute("allowfullscreen", true); 
     player.setAttribute("autoplay", true); 
     player.setAttribute("muted", true); 
-
-
-    
-    iframeDiv.appendChild(player); 
+    iframeDiv.appendChild(player);
+     
     var videoList = document.querySelector('.video-list'); 
     body.appendChild(videoList);  
 }
