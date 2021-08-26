@@ -186,6 +186,7 @@ function videoSelected(e, responseObject){
         heightsize = 0.54 * screen.width; 
         player.setAttribute("width", widthsize); 
         player.setAttribute("height", heightsize);
+        playerTitle.style.width = String(widthsize);
     }
      
     player.setAttribute("align", "center"); 
@@ -196,8 +197,16 @@ function videoSelected(e, responseObject){
     player.setAttribute("autoplay", true); 
     player.setAttribute("muted", true); 
     iframeDiv.appendChild(player);
+
+    var playerDate = document.createElement('p');
+    playerDate.className = "playerDate"; 
+    playerDate.innerText = `${dateConverter(video_dict[target.id].snippet.publishedAt)}`; 
+    iframeDiv.appendChild(playerDate); 
+
      
     var videoList = document.querySelector('.video-list'); 
     body.appendChild(videoList);  
+
+    document.querySelector('.searchdiv').scrollIntoView(); 
 }
 
