@@ -15,8 +15,8 @@ function searchRequest(e){
             document.querySelector('.video-list').parentElement.removeChild(document.querySelector('.video-list')); 
             video_dict = {}; 
         }
-        if (document.querySelector('iframe')){
-            document.querySelector('iframe').parentElement.removeChild(document.querySelector('iframe')); 
+        if (document.querySelector('.iframe-div')){
+            document.querySelector('.iframe-div').parentElement.removeChild(document.querySelector('.iframe-div')); 
         }
         //making API request
         var searchTerm = searchBar.value; 
@@ -174,6 +174,23 @@ function videoSelected(e, responseObject){
     playerTitle.innerText = video_dict[target.id].snippet.title;
     iframeDiv.appendChild(playerTitle);
 
+    var dateChannelDiv = document.createElement('div');
+    dateChannelDiv.className = "date-channel"
+    var playerDate = document.createElement('p');
+    playerDate.className = "player-date";
+    playerDate.innerText = `${dateConverter(video_dict[target.id].snippet.publishedAt)}`; 
+    dateChannelDiv.appendChild(playerDate); 
+    var circle_icon = document.createElement("i"); 
+    circle_icon.innerText = "circle"; 
+    circle_icon.className = "material-icons"; 
+    circle_icon.id = "circle_icon"
+    dateChannelDiv.appendChild(circle_icon);
+    var playerChannel = document.createElement('p');
+    playerChannel.innerText = video_dict[target.id].snippet.channelTitle;
+    playerChannel.className = "player-channel";
+    dateChannelDiv.appendChild(playerChannel);
+    iframeDiv.appendChild(dateChannelDiv);
+
     embed_link = `https://www.youtube.com/embed/${video_dict[target.id].id.videoId}`; 
     var player = document.createElement("iframe"); 
     // player.setAttribute("width", "560"); 
@@ -197,11 +214,6 @@ function videoSelected(e, responseObject){
     player.setAttribute("autoplay", true); 
     player.setAttribute("muted", true); 
     iframeDiv.appendChild(player);
-
-    var playerDate = document.createElement('p');
-    playerDate.className = "playerDate"; 
-    playerDate.innerText = `${dateConverter(video_dict[target.id].snippet.publishedAt)}`; 
-    iframeDiv.appendChild(playerDate); 
 
      
     var videoList = document.querySelector('.video-list'); 
