@@ -142,7 +142,7 @@ function addDescription(video){
 
 function selectVideo(responseObject){
     var numberOfVideos = document.querySelectorAll('.row').length;
-    for (let i = 1; i < numberOfVideos+1; i++){
+    for (let i = 1; i < numberOfVideos+2; i++){
         classString = "#video" + i;  
         if (document.querySelector(classString)){
             document.querySelector(classString).addEventListener('click', function(e){videoSelected(e, responseObject), false});
