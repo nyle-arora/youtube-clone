@@ -79,7 +79,7 @@ function makeVideoList(responseObject, target){
 
 function addTitle(video){
     var videoTitle = document.createElement("h1");
-    videoTitle.innerText = `${video.snippet.title}`; 
+    videoTitle.innerText = titleCleaner(`${video.snippet.title}`);
     videoTitle.className = "video-title"; 
     return videoTitle; 
 }
@@ -171,7 +171,7 @@ function videoSelected(e, responseObject){
     
     var playerTitle = document.createElement('h1');
     playerTitle.className = "playerTitle"
-    playerTitle.innerText = video_dict[target.id].snippet.title;
+    playerTitle.innerText = titleCleaner(video_dict[target.id].snippet.title);
     iframeDiv.appendChild(playerTitle);
 
     var dateChannelDiv = document.createElement('div');
@@ -220,5 +220,12 @@ function videoSelected(e, responseObject){
     body.appendChild(videoList);  
 
     document.querySelector('.searchdiv').scrollIntoView(); 
+}
+
+function titleCleaner(uglyTitle){
+    uglyTitle = uglyTitle.replace(/&#39;/g, '\'');
+    uglyTitle = uglyTitle.replace(/&amp;/g, '\&');
+    uglyTitle = uglyTitle.replace(/&quot;/g, "\"");
+    return uglyTitle;
 }
 
